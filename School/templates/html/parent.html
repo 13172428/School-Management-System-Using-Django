@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load custom_filters %}
+
+<div class="container py-4">
+  <h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+
+  {% if child %}
+  <div class="row mb-4 g-3">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary h-100 text-center shadow rounded-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ child.user.get_full_name }}</h5>
+          <p class="card-text">Class: {{ child.student_class }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-success h-100 text-center shadow rounded-3">
+        <div class="card-body">
+          <h3>{{ attendance_percent }}%</h3>
+          <p class="card-text">Child's Attendance</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-info h-100 text-center shadow rounded-3">
+        <div class="card-body">
+          <h3>₹{{ fees_paid|floatformat:2 }}</h3>
+          <p class="card-text">Fees Paid</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="mt-4 mb-2">🔔 Notifications</h5>
+  <ul class="list-group small mb-4">
+    {% for n in notifications %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ n.message }}
+        <span class="text-muted">{{ n.created_at|date:"M j, H:i" }}</span>
+      </li>
+    {% empty %}
+      <li class="list-group-item text-muted">No new notifications</li>
+    {% endfor %}
+  </ul>
+
+  <h5 class="mt-4 mb-2">📊 Child's Marks Overview</h5>
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Term</th>
+          <th>Subject</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in marks %}
+          <tr>
+            <td>{{ r.term }}</td>
+            <td>{{ r.subject }}</td>
+            <td>{{ r.marks }}%</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="text-muted text-center">No marks data available</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="alert alert-warning">
+      <strong>No student linked to this parent.</strong><br>
+      Please ensure this parent account is associated with a student in the database.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

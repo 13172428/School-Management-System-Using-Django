@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #ffcc00;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            width: 60px;
+            height: auto;
+        }
+
+        .brand-logo-name {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-left: 15px;
+        }
+
+        nav.navbar a {
+            margin: 0 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav.navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: 0.3s ease;
+        }
+
+        nav.navbar a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            height: 80vh;
+            background: url("{% static 'images/school-image.jpg' %}") no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary);
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section.about-us-section {
+            padding: 60px 20px;
+            background: #ffffff;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section.about-us-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        section.about-us-section p {
+            max-width: 800px;
+            margin: auto;
+            font-size: 18px;
+            color: #333;
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .login-options form button {
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .login-options .parent {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .login-options .student {
+            background-color: var(--warning);
+            color: black;
+        }
+
+        .login-options .teacher {
+            background-color: var(--info);
+            color: white;
+        }
+
+        .login-options button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav.navbar {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            nav.navbar a {
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{% static '\images\school1-logo.png' %}" alt="School Logo">
+            <span class="brand-logo-name"> Maharshi High School</span>
+        </div>
+        <nav class="navbar">
+            <a href="#" onclick="showDialogueBox('Welcome', 'We are delighted to have you here.')">Home</a>
+            <a href="#about-us-section" onclick="showDialogueBox('About Us', 'We believe in nurturing young minds.')">About Us</a>
+            <a href="#contact-form" onclick="showDialogueBox('Contact Us', 'Email: srikarbura75@gmail.com')">Contact</a>
+            <a href="#notice-board-section" onclick="showDialogueBox('Notice Board', 'Stay updated with school news.')">Notices</a>
+            <a href="#campus-on-map" onclick="showDialogueBox('Campus Map', 'Explore our beautiful campus.')">Our Campus</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to My School</h1>
+    </section>
+
+    <section id="about-us-section" class="about-us-section">
+        <h2>About Us</h2>
+        <p>Our mission is to empower students through a safe and inspiring learning environment that encourages growth, knowledge, and creativity.</p>
+    </section>
+
+    <footer>
+        <div class="login-options">
+            <form action="{% url 'login' %}?user_type=parent" method="get">
+                <button type="submit" class="parent">Parent Login</button>
+            </form>
+            <form action="{% url 'login' %}?user_type=student" method="get">
+                <button type="submit" class="student">Student Login</button>
+            </form>
+            <form action="{% url 'login' %}?user_type=teacher" method="get">
+                <button type="submit" class="teacher">Teacher Login</button>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        function showDialogueBox(title, message) {
+            var existingBox = document.querySelector('.dialogue-box');
+            if (existingBox) existingBox.remove();
+
+            var box = document.createElement('div');
+            box.className = 'dialogue-box';
+            box.style.position = 'fixed';
+            box.style.top = '50%';
+            box.style.left = '50%';
+            box.style.transform = 'translate(-50%, -50%) scale(1)';
+            box.style.background = '#fff';
+            box.style.padding = '30px';
+            box.style.borderRadius = '12px';
+            box.style.boxShadow = '0 6px 18px rgba(0,0,0,0.3)';
+            box.style.zIndex = 9999;
+            box.style.width = '80%';
+            box.style.maxWidth = '600px';
+            box.style.textAlign = 'center';
+
+            box.innerHTML = `<span style="position:absolute;top:10px;right:15px;cursor:pointer;font-size:22px;" onclick="this.parentElement.remove()">&times;</span>
+                             <h2 style="color:#0056b3;">${title}</h2>
+                             <p>${message}</p>`;
+
+            document.body.appendChild(box);
+        }
+    </script>
+</body>
+</html>

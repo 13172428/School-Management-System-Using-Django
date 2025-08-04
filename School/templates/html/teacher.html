@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+<div class="row mb-3">
+  <div class="col-md-6">
+    <div class="card text-bg-success text-center">
+      <div class="card-body">
+        <h4>Total Classes Assigned</h4>
+        <h3>{{ total_classes }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card text-bg-info text-center">
+      <div class="card-body">
+        <h4>Subjects Teaching</h4>
+        <h5>
+          {% for s in subjects %}
+            {{ s.name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+<h5 class="mt-4">Your Classes</h5>
+<table class="table table-bordered table-sm">
+  <thead><tr><th>Class</th><th>Section</th><th>Subject</th><th>Attendance</th></tr></thead>
+  <tbody>
+  {% for c in class_subjects %}
+    <tr>
+      <td>{{ c.teacher.assigned_class }}</td>
+      <td>Section A</td>
+      <td>{{ c.name }}</td>
+      <td><a href="{% url 'mark_attendance' c.id %}" class="btn btn-sm btn-outline-primary">Mark/Validate</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<h5 class="mt-4">Latest Notifications</h5>
+<ul class="list-group small">
+  {% for n in notifications %}
+    <li class="list-group-item">{{ n.message }} <span class="text-muted float-end">{{ n.created_at|date:"M j, H:i" }}</span></li>
+  {% empty %}
+    <li class="list-group-item text-muted">No new messages</li>
+  {% endfor %}
+</ul>
+{% endblock %}

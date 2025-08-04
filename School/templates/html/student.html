@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+
+<div class="row">
+  <!-- Overall Attendance -->
+  <div class="col-md-3 mb-3">
+    <div class="card text-center text-bg-success">
+      <div class="card-body">
+        <h3>{{ attendance_percent }}%</h3>
+        <p>Overall Attendance</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Fees Paid -->
+  <div class="col-md-3 mb-3">
+    <div class="card text-center text-bg-info">
+      <div class="card-body">
+        <h3>₹{{ fees_paid|floatformat:2 }}</h3>
+        <p>Total Fees Paid</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications -->
+  <div class="col-md-6 mb-3">
+    <h5 class="mt-2">Latest Notifications</h5>
+    <ul class="list-group small">
+      {% for n in notifications %}
+        <li class="list-group-item">
+          {{ n.message }}
+          <span class="text-muted float-end">{{ n.created_at|date:"M j, H:i" }}</span>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">No new alerts</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- Subject-wise Attendance -->
+<h4 class="mt-5">Subject-wise Attendance</h4>
+<div class="table-responsive">
+  <table class="table table-sm table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Subject</th>
+        <th>Present</th>
+        <th>Total</th>
+        <th>Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in by_subject %}
+        <tr>
+          <td>{{ row.subject }}</td>
+          <td>{{ row.present }}</td>
+          <td>{{ row.total }}</td>
+          <td>{{ row.present|mul:100|div:row.total|floatformat:1 }}%</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="text-muted text-center">No attendance data</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Recent Marks -->
+<h4 class="mt-5">Recent Marks</h4>
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th>Subject</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in latest_marks %}
+        <tr>
+          <td>{{ r.term }}</td>
+          <td>{{ r.subject }}</td>
+          <td>{{ r.marks }}%</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3" class="text-muted text-center">No marks available</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
